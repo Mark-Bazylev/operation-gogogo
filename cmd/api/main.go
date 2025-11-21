@@ -1,21 +1,38 @@
 package main
 
+//go:generate sh -c "command -v swag >/dev/null 2>&1 && swag init -g ./cmd/api/main.go -o ./docs || echo 'swag not installed; skipping docs generation'"
+
 import (
 	"fmt"
 	"log"
 	"net/http"
+	httpRoutes "operation-gogogo/internal/http"
 	"os"
 
 	"operation-gogogo/internal/config"
-	httpRoutes "operation-gogogo/internal/http"
+
+	"operation-gogogo/docs"
 )
 
 var buildVersion = "dev" // set by -ldflags at build time
 
+// @title Operation GoGoGo API
+// @version 1.0
+// @description Learning Go backend step by step.
+
+// @host localhost:8080
+// @BasePath /
 func main() {
 	applicationLogger := log.New(os.Stdout, "", log.LstdFlags)
 
 	applicationConfig := config.LoadConfig(buildVersion)
+
+	// Initialize Swagger metadata at runtime
+	docs.SwaggerInfo.Title = "Operation GoGoGo API"
+	docs.SwaggerInfo.Version = applicationConfig.Version
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%d", applicationConfig.Port)
+	docs.SwaggerInfo.Schemes = []string{"http"}
 
 	printStartupLine(applicationLogger, applicationConfig)
 

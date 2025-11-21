@@ -17,6 +17,12 @@ type HealthCheckResponse struct {
 	Version     string `json:"version"`
 }
 
+// HealthCheck godoc
+// @Summary      Health check
+// @Tags         health
+// @Produce      json
+// @Success      200  {object}  HealthCheckResponse
+// @Router       /health [get]
 func (handler *HealthCheckHandler) ServeHTTP(responseWriter http.ResponseWriter, request *http.Request) {
 	response := HealthCheckResponse{
 		Status:      "ok",
