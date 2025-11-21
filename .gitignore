@@ -27,3 +27,6 @@ coverage.out
 .env
 .env.*
 .env.local
+
+.air.toml
+tmp/
