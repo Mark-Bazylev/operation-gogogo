@@ -6,7 +6,7 @@ APPLICATION_NAME = operation-gogogo
 MAIN_PACKAGE = ./cmd/api
 
 # Version: git commit hash (short)
-VERSION = $(shell git rev-parse --short HEAD)
+VERSION = $(shell git describe --tags --always)
 
 # Build the application with the version injected
 build:
